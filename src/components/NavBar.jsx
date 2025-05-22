@@ -5,7 +5,7 @@ import { BASE_URL } from "../utils/constants";
 import { deleteUser } from "../utils/userSlice";
 
 const NavBar = () => {
-    const user = useSelector(state => state.user);
+    const user = useSelector(store => store.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 

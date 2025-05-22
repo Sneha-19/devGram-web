@@ -10,7 +10,7 @@ import { useEffect } from "react"
 const Body = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const user = useSelector(state => state.user)
+    const user = useSelector(store => store.user)
 
     const fetchUser = async () => {
         if(user) return;
