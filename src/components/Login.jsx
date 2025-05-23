@@ -30,8 +30,8 @@ const Login = () => {
     return (
         <div className="flex justify-center mt-25">
             <div className="card card-border bg-base-300 w-96">
-                <div className="card-body mx-auto">
-                    <h2 className="card-title">Login</h2>
+                <div className="card-body items-center text-center ">
+                    <h2 className="card-title mb-5">Login</h2>
                     <label className="input validator">
                         <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <g
@@ -79,7 +79,7 @@ const Login = () => {
                     </p>
                     <div className="validator-hint hidden">Enter valid email address</div>
                     <div className="text-red-500">{error}</div>
-                    <div className="card-actions justify-end mt-10">
+                    <div className="card-actions justify-end mt-5">
                         <button className="btn btn-primary" onClick={loginCall}>Login</button>
                     </div>
                 </div>
