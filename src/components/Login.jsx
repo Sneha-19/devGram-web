@@ -6,9 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
-    const [emailId, setEmail] = useState("sneha@singh.com");
-    const [password, setPassword] = useState("NewPass@123");
+    const [firstName, setFirstaName] = useState("");
+    const [lastName, setLastName] = useState("")
+    const [emailId, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [isLogin, setIsLogin] = useState(true)
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -27,11 +30,81 @@ const Login = () => {
         }
     };
 
+    const signUpCall = async() => {
+        try{
+            const res = await axios.post(BASE_URL + "/signUp", {firstName, lastName, emailId, password}, {withCredentials: true});
+            dispatch(addUser(res?.data?.data));
+            navigate("/profile");
+        } catch(err) {
+            setError(err?.response?.data)
+        }
+    }
+
     return (
         <div className="flex justify-center mt-25">
             <div className="card card-border bg-base-300 w-96">
                 <div className="card-body items-center text-center ">
-                    <h2 className="card-title mb-5">Login</h2>
+                    <h2 className="card-title mb-5">{isLogin ? "Login" : "SignUp"}</h2>
+                    {!isLogin && <>
+                        <label className="input validator">
+                            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <g
+                                    strokeLinejoin="round"
+                                    strokeLinecap="round"
+                                    strokeWidth="2.5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                >
+                                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </g>
+                            </svg>
+                            <input
+                                type="text"
+                                required
+                                placeholder="First Name"
+                                pattern="[A-Za-z][A-Za-z0-9\-]*"
+                                minLength="3"
+                                maxLength="30"
+                                title="Only letters, numbers or dash"
+                                value={firstName}
+                                onChange={(e) => setFirstaName(e.target.value)}
+                            />
+                        </label>
+                        <p className="validator-hint hidden">
+                            Must be 3 to 30 characters
+                            <br />containing only letters, numbers or dash
+                        </p>
+                        <label className="input validator">
+                            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <g
+                                    strokeLinejoin="round"
+                                    strokeLinecap="round"
+                                    strokeWidth="2.5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                >
+                                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </g>
+                            </svg>
+                            <input
+                                type="text"
+                                required
+                                placeholder="Last Name"
+                                pattern="[A-Za-z][A-Za-z0-9\-]*"
+                                minLength="3"
+                                maxLength="30"
+                                title="Only letters, numbers or dash"
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                            />
+                        </label>
+                        <p className="validator-hint hidden">
+                            Must be 3 to 30 characters
+                            <br />containing only letters, numbers or dash
+                        </p>
+                    </>}
                     <label className="input validator">
                         <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <g
@@ -45,7 +118,7 @@ const Login = () => {
                                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                             </g>
                         </svg>
-                        <input type="email" placeholder="mail@site.com" required value={emailId} onChange={(e) => setEmail(e.target.value)}/>
+                        <input type="email" placeholder="mail@site.com" required value={emailId} onChange={(e) => setEmail(e.target.value)} />
                     </label>
                     <label className="input validator" >
                         <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -79,8 +152,9 @@ const Login = () => {
                     </p>
                     <div className="validator-hint hidden">Enter valid email address</div>
                     <div className="text-red-500">{error}</div>
-                    <div className="card-actions justify-end mt-5">
-                        <button className="btn btn-primary" onClick={loginCall}>Login</button>
+                    <div className="card-actions flex-col items-center mt-5">
+                        <button className="btn btn-primary" onClick={() => isLogin ? loginCall() : signUpCall()}>{isLogin ? "Login" : "SignUp"}</button>
+                        <div className="mt-2 cursor-pointer underline" onClick={() => setIsLogin(!isLogin   )}>{isLogin ? "New User? SignUp here!" : "Existing User? Login here!"}</div>
                     </div>
                 </div>
             </div>

@@ -10,7 +10,7 @@ const Feed = () => {
     const dispatch = useDispatch();
     
     const getFeed = async () => {
-        if (feedData) return;
+        // if (feedData) return;
         try {
             const feed = await axios.get(BASE_URL + "/user/feed", {
                 withCredentials: true
@@ -25,8 +25,11 @@ const Feed = () => {
         getFeed()
     }, [])
 
+    if(!feedData) return;
+
+    if(feedData.length <= 0 ) return <div className="flex justify-center my-10">No Users Left!!</div>
+
     return (
-        feedData &&
         <div className="flex justify-center my-20"><UserCard user={feedData[0]} /></div>
     )
 }
